@@ -1,0 +1,5 @@
+name: "COLT - Ontology to Code Library"
+description: "Goes through ontology files and generates a code library to access them programatically."
+runs:
+  using: "docker"
+  image: "Dockerfile"
