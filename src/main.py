@@ -83,7 +83,12 @@ if __name__ == "__main__":
     try:
         pr_title = f"COLT ./- Generated code library - {now}"
         pr_body = "Plz check files."
-        pr = repo.create_pull(title=pr_title, body=pr_body, head=new_branch, base=default_branch.name)
+        pr = repo.create_pull(
+            title = pr_title, 
+            body = pr_body, 
+            head = branch_name, 
+            base = default_branch.name
+        )
     except GithubException as ex:
         print(f"Failed to create pull request: {ex}")
 
