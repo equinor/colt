@@ -36,7 +36,6 @@ if __name__ == "__main__":
 
     default_branch = repo.get_branch(repo.default_branch)
 
-    new_branch = repo.create_git_ref(ref=f"refs/heads/{branch_name}", sha=default_branch.commit.sha)
 
     author = InputGitAuthor(
         "GitHub Action",
@@ -62,10 +61,16 @@ if __name__ == "__main__":
         
         changes.append(element)
     
-    base_tree = repo.get_git_tree(sha=default_branch.commit.sha)
+    head_sha = default_branch.commit.sha
+    new_branch = repo.create_git_ref(ref=f"refs/heads/{branch_name}", sha=default_branch.commit.sha)
+    new_branch_sha = repo.get_branch(branch_name).commit.sha
+
+    base_tree = repo.get_git_tree(sha=new_branch_sha)
     tree = repo.create_git_tree(changes, base_tree)
 
-    commit = repo.create_git_commit(commit_message, tree, [default_branch.commit.sha])
+    parent = repo.get_git_commit(sha=new_branch_sha)
+
+    commit = repo.create_git_commit(commit_message, tree, [parent])
     new_branch.update(commit.sha)
 
     try:
