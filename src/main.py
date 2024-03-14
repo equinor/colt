@@ -48,6 +48,8 @@ if __name__ == "__main__":
     changes = []
     for file in new_files:
         file_path = os.path.join(to_path, file)
+        print(f"Reading {file_path}")
+        
         with open(file_path, "r") as f:
             data = f.read()
         blob = repo.create_git_blob(data, "utf-8")
