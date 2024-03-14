@@ -19,6 +19,7 @@ jobs:
               with:
                 from: ontologies/
                 to: ontologies/out
+                package_name: ColtTest
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
