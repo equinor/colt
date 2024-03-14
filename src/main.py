@@ -47,12 +47,13 @@ if __name__ == "__main__":
 
     changes = []
     for file in new_files:
-        with open(os.path.join(to_path, file), "r") as f:
+        file_path = os.path.join(to_path, file)
+        with open(file_path, "r") as f:
             data = f.read()
         blob = repo.create_git_blob(data, "utf-8")
 
         element = InputGitTreeElement(
-            path = file,
+            path = file_path,
             mode = "100644",
             type = "blob",
             sha = blob.sha
@@ -81,7 +82,7 @@ if __name__ == "__main__":
     print(f"Updated branch {new_branch}")
 
     try:
-        pr_title = f"COLT ./- Generated code library - {now}"
+        pr_title = f"COLT ./- Generated code library - {datetime.now.strftime("%Y-%m-%d %H:%M")}"
         pr_body = "Plz check files."
         pr = repo.create_pull(
             title = pr_title, 
