@@ -141,7 +141,7 @@ def ready_library(generated_from: str):
         shutil.rmtree(nuget_path)
     
     os.mkdir(nuget_path)
-    open(os.path.join(nuget_path, "IriLibrary.csproj"), "w").write(csproj(generated_from))
+    open(os.path.join(nuget_path, f"{os.environ.get("package_name")}.csproj"), "w").write(csproj(generated_from))
 
 def csproj(generated_from: str):
     return f"""<Project Sdk=\"Microsoft.NET.Sdk\">
