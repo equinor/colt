@@ -15,6 +15,10 @@ from_dir = os.environ.get("INPUT_FROM")
 if from_dir is None:
     from_dir = os.getcwd()
 
+print(f"Package name: {package_name}")
+print(f"Collecting ontologies from: {from_dir}")
+print(f"Saving code library to: {to_dir}")
+
 def short_name(s: str) -> str:
     try:
         if "#" in s and s[-1] != "#": return s.split("#")[-1]
