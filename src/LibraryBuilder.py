@@ -21,9 +21,15 @@ else:
     if not os.path.exists(from_dir):
         os.makedirs(from_dir)
 
+namespace = os.environ.get("INPUT_NAMESPACE")
+if namespace is None:
+    namespace = f"Auto.Ontology.{package_name}"
+
+
 print(f"Package name: {package_name}")
 print(f"Collecting ontologies from: {from_dir}")
 print(f"Saving code library to: {to_dir}")
+print(f"Using namespace {namespace}")
 
 def short_name(s: str) -> str:
     try:
@@ -113,8 +119,8 @@ def clean_class_name(o: Ontology) -> str:
     return r
 
 def ontology_class(o: Ontology, fields: list) -> str:    
-    r = f"namespace Auto.Ontology.{package_name};\n\n"    
-    comment = f"This class is automatically generated from the <{o.base}> ontology.\nThe intended use is:\n<code>using Auto.Ontology.{package_name};</code>"
+    r = f"namespace {namespace};\n\n"    
+    comment = f"This class is automatically generated from the <{o.base}> ontology.\nThe intended use is:\n<code>using {namespace};</code>"
 
     class_name = clean_class_name(o)
 
