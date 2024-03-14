@@ -34,7 +34,7 @@ if __name__ == "__main__":
     repo = github.get_repo(repo_url)
     branch_name = f"colt/{now}"
 
-    default_branch = repo.get_branch(repo.default_branch)
+    default_branch = repo.get_branch("init") #repo.default_branch)
 
 
     author = InputGitAuthor(
