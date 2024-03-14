@@ -1,0 +1,22 @@
+name: "COLT - Ontology to Code Library"
+description: "Goes through ontology files and generates a code library to access them programatically."
+inputs:
+  from:
+    description: "The directory with the ontologies you wish to transform."
+    required: true
+    default: "."
+  to:
+    description: "The directory where you wish to place the generated code library (this directory will be emptied and filled with new content)."
+    required: true
+    default: "./colt/"
+  package_name:
+    description: "The name of the code library package generated."
+    required: true
+    default: "OntologyLibrary"
+  namespace:
+    description: "The namespace for the C# project generated."
+    required: false
+    default: "Auto.Ontology"
+runs:
+  using: "docker"
+  image: "Dockerfile"
