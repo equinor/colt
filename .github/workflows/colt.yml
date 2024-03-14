@@ -16,5 +16,8 @@ jobs:
             - name: Colt
               id: colt
               uses: equinor/colt@init
+              with:
+                from: ontologies/
+                to: ontologies/out
 
             
