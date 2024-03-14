@@ -18,6 +18,7 @@ if __name__ == "__main__":
     root = os.getcwd()
     to_path = os.path.join(root, to_dir)
     if not os.path.exists(to_path):
+        print(f"Created folders {to_path}")
         os.makedirs(to_path)
 
     print(f"From: {from_dir}")
@@ -41,7 +42,6 @@ if __name__ == "__main__":
         "GitHub Action",
         "action@github.com"
     )
-
 
     new_files = [file for file in os.listdir(to_path)]
 

@@ -135,6 +135,7 @@ def ready_library(generated_from: str):
     import shutil
     root = os.getcwd()
     to_dir = os.environ.get("INPUT_TO")
+    print(f"Library: Found to_dir {to_dir}")
     nuget_path = os.path.join(root, to_dir)
 
     if os.path.exists(nuget_path): 
