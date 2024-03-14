@@ -1,6 +1,6 @@
 import os
 from github import *
-from datetime import date
+from datetime import datetime
 from uuid import uuid4
 from LibraryBuilder import *
 
@@ -30,8 +30,9 @@ if __name__ == "__main__":
     ready_library(f"{repo_url}:{sha}")
     all_ontologies()
 
+    now = datetime.now().strftime("%Y-%m-%d_%H-%M")
     repo = github.get_repo(repo_url)
-    branch_name = f"colt/{date.today()}/{uuid4()}"
+    branch_name = f"colt/{now}"
 
     default_branch = repo.get_branch(repo.default_branch)
 
@@ -46,22 +47,29 @@ if __name__ == "__main__":
     new_files = [file for file in os.listdir(to_path)]
 
     commit_message = "Added code libraries for ontologies."
+    changes = []
     for file in new_files:
         with open(os.path.join(to_path, file), "r") as f:
             data = f.read()
         blob = repo.create_git_blob(data, "utf-8")
-        tree = repo.create_git_tree([{
-            "path": file,
-            "mode": "100644",
-            "type": "blob",
-            "sha": blob.sha
-        }], base_tree=default_branch.commit.sha)
 
-        commit = repo.create_git_commit(commit_message, tree, [default_branch.commit.sha])
-        new_branch.update(commit.sha)
+        element = InputGitTreeElement(
+            path = file,
+            mode = "100644",
+            type = "blob",
+            sha = blob.sha
+        )
+        
+        changes.append(element)
+    
+    base_tree = repo.get_git_tree(sha=default_branch.commit.sha)
+    tree = repo.create_git_tree(changes, base_tree)
+
+    commit = repo.create_git_commit(commit_message, tree, [default_branch.commit.sha])
+    new_branch.update(commit.sha)
 
     try:
-        pr_title = f"COLT ./- Generated code library - {date.today()}"
+        pr_title = f"COLT ./- Generated code library - {now}"
         pr_body = "Plz check files."
         pr = repo.create_pull(title=pr_title, body=pr_body, head=new_branch, base=default_branch.name)
     except GithubException as ex:
