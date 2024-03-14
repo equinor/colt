@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <PackageId>ColtTest.csproj</PackageId>
+        <Description>An automatically generated nuget package for IRIs. Generated from: equinor/colt:c1750f8e0ae5498bd06c3fa7c5edccd6426756a6</Description>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    </PropertyGroup>
+</Project>
+    
