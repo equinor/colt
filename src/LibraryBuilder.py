@@ -1,7 +1,7 @@
-import os 
+import os
 from ontology import Ontology
 
-package_name = os.environ.get('INPUT_PACKAGE_NAME')
+package_name = os.environ.get("INPUT_PACKAGE_NAME")
 if package_name is None:
     package_name = "OntologyLibrary"
 
@@ -31,21 +31,26 @@ print(f"Collecting ontologies from: {from_dir}")
 print(f"Saving code library to: {to_dir}")
 print(f"Using namespace {namespace}")
 
+
 def short_name(s: str) -> str:
     try:
-        if "#" in s and s[-1] != "#": return s.split("#")[-1]
+        if "#" in s and s[-1] != "#":
+            return s.split("#")[-1]
         return s.split("/")[-2] if s[-1] == "/" else s.split("/")[-1]
     except:
         return ""
-    
+
+
 def cap(s: str) -> str:
     return s[0].upper() + s[1:]
+
 
 def tab_lines(content: str) -> str:
     r = ""
     for line in content.split("\n"):
         r += f"\t{line}\n"
     return r[:-1]
+
 
 def create_cs_comment(content: str) -> str:
     r = "/// <Summary>"
@@ -54,21 +59,24 @@ def create_cs_comment(content: str) -> str:
     r += "\n/// </Summary>\n"
     return r
 
+
 def field(iri: str, class_name: str, field_name: str = None) -> str:
     r = f"""{tab_lines(create_cs_comment(f"<see href='{iri}'>{iri}</see>"))}"""
 
     field_name = short_name(iri) if field_name is None else field_name
-    
+
     field_name = clean_field_name(field_name)
 
     if field_name.strip().lower() == class_name.strip().lower():
         field_name = f"{field_name}_"
 
-    r += f"public const string {field_name} = \"{iri}\";\n"
+    r += f'public const string {field_name} = "{iri}";\n'
     return r
+
 
 def clean_field_name(field_name: str) -> str:
     import urllib.parse
+
     r = ""
     i = 0
     while i < len(field_name):
@@ -77,7 +85,7 @@ def clean_field_name(field_name: str) -> str:
             r += f"_{char}"
             i += 1
         elif char == "%":
-            cleaned = urllib.parse.unquote(field_name[i:i+3])
+            cleaned = urllib.parse.unquote(field_name[i : i + 3])
             r += clean_char(cleaned)
             i += 3
         else:
@@ -85,26 +93,32 @@ def clean_field_name(field_name: str) -> str:
             i += 1
     return r
 
+
 def legal_chars() -> str:
     legal_chars = "abcdefghijklmnopqrstuvwxyz"
     legal_chars += legal_chars.upper()
     legal_chars += "0123456789"
     return legal_chars
 
+
 def clean_char(char: str) -> str:
-    if len(char) != 1: raise Exception("Char can only be length 1.")
-    if char in legal_chars(): return char
+    if len(char) != 1:
+        raise Exception("Char can only be length 1.")
+    if char in legal_chars():
+        return char
     return "_"
+
 
 def clean_class_name(o: Ontology) -> str:
     import re
+
     base_uri = o.base
 
     offset = 1 if base_uri[-1] == "/" else 0
     if re.search("v\d+", base_uri):
-        cs_name = base_uri.split("/")[(-2-offset)]
+        cs_name = base_uri.split("/")[(-2 - offset)]
     else:
-        cs_name = base_uri.split("/")[(-1-offset)]
+        cs_name = base_uri.split("/")[(-1 - offset)]
 
     r = ""
     i = 0
@@ -118,8 +132,9 @@ def clean_class_name(o: Ontology) -> str:
 
     return r
 
-def ontology_class(o: Ontology, fields: list) -> str:    
-    r = f"namespace {namespace};\n\n"    
+
+def ontology_class(o: Ontology, fields: list) -> str:
+    r = f"namespace {namespace};\n\n"
     comment = f"This class is automatically generated from the <{o.base}> ontology.\nThe intended use is:\n<code>using {namespace};</code>"
 
     class_name = clean_class_name(o)
@@ -129,16 +144,17 @@ def ontology_class(o: Ontology, fields: list) -> str:
     r += "{\n"
 
     for f in fields:
-        r += f"{field(f, class_name)}\n"    
+        r += f"{field(f, class_name)}\n"
     r += "}"
     return r
 
-def create_cs_file(o: Ontology):    
+
+def create_cs_file(o: Ontology):
     members = o.members
     if len(members) < 1:
         print("Found no members. Breaking.")
         return
-    
+
     print(f"Found {len(members)} members.")
     o_class = ontology_class(o, members)
 
@@ -149,10 +165,12 @@ def create_cs_file(o: Ontology):
     print(f"Writing file to {to_path}")
     open(to_path, "w").write(o_class)
 
+
 def single_ontology(file_path: str):
     print(file_path)
     o = Ontology(file_path)
     create_cs_file(o)
+
 
 def all_ontologies():
     root = os.getcwd()
@@ -162,14 +180,18 @@ def all_ontologies():
             file_path = os.path.join(folder, file)
             single_ontology(file_path)
 
+
 def ready_library(generated_from: str):
     import shutil
-    
-    if os.path.exists(to_dir): 
+
+    if os.path.exists(to_dir):
         shutil.rmtree(to_dir)
-    
+
     os.mkdir(to_dir)
-    open(os.path.join(to_dir, f"{package_name}.csproj"), "w").write(csproj(generated_from))
+    open(os.path.join(to_dir, f"{package_name}.csproj"), "w").write(
+        csproj(generated_from)
+    )
+
 
 def csproj(generated_from: str):
     return f"""<Project Sdk=\"Microsoft.NET.Sdk\">
@@ -185,8 +207,10 @@ def csproj(generated_from: str):
 </Project>
     """
 
+
 if __name__ == "__main__":
     import sys
+
     generated_from = sys.argv[1]
     ready_library(generated_from)
     all_ontologies()
