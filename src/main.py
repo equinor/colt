@@ -35,7 +35,7 @@ if __name__ == "__main__":
     repo = github.get_repo(repo_url)
     branch_name = f"colt/{now}"
 
-    default_branch = repo.get_branch("init") #repo.default_branch)
+    default_branch = repo.get_branch(repo.default_branch)
 
 
     author = InputGitAuthor(
@@ -86,7 +86,7 @@ if __name__ == "__main__":
 
     try:
         pr_title = f"COLT ./- Generated code library - {datetime.now().strftime('%Y-%m-%d %H:%M')}"
-        pr_body = "Plz check files."
+        pr_body = "C# classes with namespaces generated from ontologies."
         pr = repo.create_pull(
             title = pr_title, 
             body = pr_body, 
