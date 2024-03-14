@@ -15,6 +15,11 @@ if __name__ == "__main__":
     from_dir = os.environ.get("INPUT_FROM")
     to_dir = os.environ.get("INPUT_TO")
 
+    root = os.getcwd()
+    to_path = os.path.join(root, to_dir)
+    if not os.path.exists(to_path):
+        os.makedirs(to_path)
+
     print(f"From: {from_dir}")
     print(f"To: {to_dir}")
 
