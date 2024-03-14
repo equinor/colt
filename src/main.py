@@ -45,7 +45,6 @@ if __name__ == "__main__":
 
     new_files = [file for file in os.listdir(to_path)]
 
-    commit_message = "Added code libraries for ontologies."
     changes = []
     for file in new_files:
         with open(os.path.join(to_path, file), "r") as f:
@@ -58,11 +57,12 @@ if __name__ == "__main__":
             type = "blob",
             sha = blob.sha
         )
-        
+        print(f"Added {file} to changes.")
         changes.append(element)
     
     head_sha = default_branch.commit.sha
     new_branch = repo.create_git_ref(ref=f"refs/heads/{branch_name}", sha=default_branch.commit.sha)
+    print(f"Created branch {new_branch}")
     new_branch_sha = repo.get_branch(branch_name).commit.sha
 
     base_tree = repo.get_git_tree(sha=new_branch_sha)
@@ -70,10 +70,15 @@ if __name__ == "__main__":
 
     parent = repo.get_git_commit(sha=new_branch_sha)
 
+    commit_message = "Added code libraries for ontologies."
     commit = repo.create_git_commit(commit_message, tree, [parent])
+
+    print(f"Created commit {commit.sha}")
     
-    new_branch_ref = repo.get_git_ref(ref=f"refs/heads/{branch_name}")
+    new_branch_ref = repo.get_git_ref(ref=f"heads/{branch_name}")
     new_branch_ref.edit(commit.sha)
+
+    print(f"Updated branch {new_branch}")
 
     try:
         pr_title = f"COLT ./- Generated code library - {now}"
