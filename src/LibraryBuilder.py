@@ -8,12 +8,18 @@ if package_name is None:
 to_dir = os.environ.get("INPUT_TO")
 if to_dir is None:
     to_dir = os.path.join(os.getcwd(), "colt")
+    if not os.path.exists(to_dir):
+        os.makedirs(to_dir)
 else:
     to_dir = os.path.join(os.getcwd(), to_dir)
 
 from_dir = os.environ.get("INPUT_FROM")
 if from_dir is None:
     from_dir = os.getcwd()
+else:
+    from_dir = os.path.join(os.getcwd(), from_dir)
+    if not os.path.exists(from_dir):
+        os.makedirs(from_dir)
 
 print(f"Package name: {package_name}")
 print(f"Collecting ontologies from: {from_dir}")
