@@ -42,13 +42,12 @@ if __name__ == "__main__":
         "action@github.com"
     )
 
-    new_files_dir = os.path.join(os.getcwd(), "nuget")
 
-    new_files = [file for file in os.listdir(new_files_dir)]
+    new_files = [file for file in os.listdir(to_path)]
 
     commit_message = "Added code libraries for ontologies."
     for file in new_files:
-        with open(os.path.join(new_files_dir, file), "r") as f:
+        with open(os.path.join(to_path, file), "r") as f:
             data = f.read()
         blob = repo.create_git_blob(data, "utf-8")
         tree = repo.create_git_tree([{
