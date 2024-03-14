@@ -71,7 +71,9 @@ if __name__ == "__main__":
     parent = repo.get_git_commit(sha=new_branch_sha)
 
     commit = repo.create_git_commit(commit_message, tree, [parent])
-    new_branch.update(commit.sha)
+    
+    new_branch_ref = repo.get_git_ref(ref=f"heads/{branch_name}")
+    new_branch_ref.edit(commit.sha)
 
     try:
         pr_title = f"COLT ./- Generated code library - {now}"
