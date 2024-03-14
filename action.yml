@@ -6,7 +6,7 @@ inputs:
     required: true
     default: "."
   to:
-    description: "The directory where you wish to place the generated code library."
+    description: "The directory where you wish to place the generated code library (this directory will be emptied and filled with new content)."
     required: true
     default: "./colt/"
   package_name:
@@ -14,7 +14,7 @@ inputs:
     required: true
     default: "OntologyLibrary"
   namespace:
-    description: ""
+    description: "The namespace for the C# project generated."
     required: false
     default: "Auto.Ontology"
 runs:

@@ -13,6 +13,8 @@ The directory with your `turtle` ontologies that you want turned into a C# proje
 #### To
 The directory where you want your C# project to be located.
 
+This directory will be emptied and have new content added to it. Do not use a folder which already has content that you are not willing to delete.
+
 #### Package Name
 The name of the C# project generated.
 
