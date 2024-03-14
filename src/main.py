@@ -72,7 +72,7 @@ if __name__ == "__main__":
 
     commit = repo.create_git_commit(commit_message, tree, [parent])
     
-    new_branch_ref = repo.get_git_ref(ref=f"heads/{branch_name}")
+    new_branch_ref = repo.get_git_ref(ref=f"refs/heads/{branch_name}")
     new_branch_ref.edit(commit.sha)
 
     try:
