@@ -9,6 +9,10 @@ inputs:
     description: "The directory where you wish to place the generated code library."
     required: true
     default: "./colt/"
+  package_name:
+    description: "The name of the code library package generated."
+    required: true
+    default: "OntologyLibrary"
 runs:
   using: "docker"
   image: "Dockerfile"

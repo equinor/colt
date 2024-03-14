@@ -1,6 +1,7 @@
 import os
 from github import *
 from datetime import date
+from uuid import uuid4
 from LibraryBuilder import *
 
 if __name__ == "__main__":
@@ -25,7 +26,7 @@ if __name__ == "__main__":
     all_ontologies()
 
     repo = github.get_repo(repo_url)
-    branch_name = f"colt/{date.today()}"
+    branch_name = f"colt/{date.today()}/{uuid4()}"
 
     default_branch = repo.get_branch(repo.default_branch)
 

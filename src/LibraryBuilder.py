@@ -89,8 +89,8 @@ def clean_class_name(o: Ontology) -> str:
     return r
 
 def ontology_class(o: Ontology, fields: list) -> str:
-    r = f"namespace TI.Ssi.Ontologies.Iris;\n\n"    
-    comment = f"This class is automatically generated from the <{o.base}> ontology.\nThe intended use is:\n<code>using TI.Ssi.Ontologies.Iris;</code>"
+    r = f"namespace Auto.Ontology.{os.environ.get("package_name")};\n\n"    
+    comment = f"This class is automatically generated from the <{o.base}> ontology.\nThe intended use is:\n<code>using Auto.Ontology.{os.environ.get("package_name")};</code>"
 
     class_name = clean_class_name(o)
 
@@ -115,7 +115,8 @@ def create_cs_file(o: Ontology):
     file_name = clean_class_name(o)
 
     print("Chose file name:", file_name)
-    open(os.path.join(os.getcwd(), "src", f"{cap(file_name)}.cs"), "w").write(o_class)
+    to_path = os.path.join(os.getcwd(), os.environ.get("INPUT_TO"), f"{cap(file_name)}.cs")
+    open(to_path, "w").write(o_class)
 
 def single_ontology(file_path: str):
     print(file_path)
@@ -124,15 +125,17 @@ def single_ontology(file_path: str):
 
 def all_ontologies():
     root = os.getcwd()
-    for file in os.listdir(root):
+    folder = os.path.join(root, os.environ.get("INPUT_FROM"))
+    for file in os.listdir(folder):
         if file.endswith(".ttl"):
-            file_path = f"{root}/{file}"
+            file_path = f"{folder}/{file}"
             single_ontology(file_path)
 
 def ready_library(generated_from: str):
     import shutil
     root = os.getcwd()
-    nuget_path = os.path.join(root, "nuget")
+    to_dir = os.environ.get("INPUT_TO")
+    nuget_path = os.path.join(root, to_dir)
 
     if os.path.exists(nuget_path): 
         shutil.rmtree(nuget_path)
@@ -144,7 +147,7 @@ def csproj(generated_from: str):
     return f"""<Project Sdk=\"Microsoft.NET.Sdk\">
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
-        <PackageId>SsiOntologyIris</PackageId>
+        <PackageId>{os.environ.get("package_name")}.csproj</PackageId>
         <Description>An automatically generated nuget package for IRIs. Generated from: {generated_from}</Description>
     </PropertyGroup>
 

@@ -1,0 +1,10 @@
+@prefix colt: <http://www.example.com/colt/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+colt:Colt a owl:Ontology ;
+    owl:ontologyIRI colt:Colt ;
+    rdfs:comment "An ontology for Colt."
+
+colt:Commit a owl:Class .
+
+colt:commitedBy a owl:ObjectProperty .
