@@ -1,6 +1,20 @@
 import os 
 from ontology import Ontology
 
+package_name = os.environ.get('INPUT_PACKAGE_NAME')
+if package_name is None:
+    package_name = "OntologyLibrary"
+
+to_dir = os.environ.get("INPUT_TO")
+if to_dir is None:
+    to_dir = os.path.join(os.getcwd(), "colt")
+else:
+    to_dir = os.path.join(os.getcwd(), to_dir)
+
+from_dir = os.environ.get("INPUT_FROM")
+if from_dir is None:
+    from_dir = os.getcwd()
+
 def short_name(s: str) -> str:
     try:
         if "#" in s and s[-1] != "#": return s.split("#")[-1]
@@ -89,8 +103,8 @@ def clean_class_name(o: Ontology) -> str:
     return r
 
 def ontology_class(o: Ontology, fields: list) -> str:    
-    r = f"namespace Auto.Ontology.{os.environ.get('INPUT_PACKAGE_NAME')};\n\n"    
-    comment = f"This class is automatically generated from the <{o.base}> ontology.\nThe intended use is:\n<code>using Auto.Ontology.{os.environ.get('INPUT_PACKAGE_NAME')};</code>"
+    r = f"namespace Auto.Ontology.{package_name};\n\n"    
+    comment = f"This class is automatically generated from the <{o.base}> ontology.\nThe intended use is:\n<code>using Auto.Ontology.{package_name};</code>"
 
     class_name = clean_class_name(o)
 
@@ -115,7 +129,7 @@ def create_cs_file(o: Ontology):
     file_name = clean_class_name(o)
 
     print("Chose file name:", file_name)
-    to_path = os.path.join(os.getcwd(), os.environ.get("INPUT_TO"), f"{cap(file_name)}.cs")
+    to_path = os.path.join(to_dir, f"{cap(file_name)}.cs")
     print(f"Writing file to {to_path}")
     open(to_path, "w").write(o_class)
 
@@ -126,7 +140,7 @@ def single_ontology(file_path: str):
 
 def all_ontologies():
     root = os.getcwd()
-    folder = os.path.join(root, os.environ.get("INPUT_FROM"))
+    folder = os.path.join(root, from_dir)
     for file in os.listdir(folder):
         if file.endswith(".ttl"):
             file_path = os.path.join(folder, file)
@@ -134,22 +148,18 @@ def all_ontologies():
 
 def ready_library(generated_from: str):
     import shutil
-    root = os.getcwd()
-    to_dir = os.environ.get("INPUT_TO")
-    nuget_path = os.path.join(root, to_dir)
-    print(f"Library: Found to_dir {nuget_path}")
-
-    if os.path.exists(nuget_path): 
-        shutil.rmtree(nuget_path)
     
-    os.mkdir(nuget_path)
-    open(os.path.join(nuget_path, f"{os.environ.get('INPUT_PACKAGE_NAME')}.csproj"), "w").write(csproj(generated_from))
+    if os.path.exists(to_dir): 
+        shutil.rmtree(to_dir)
+    
+    os.mkdir(to_dir)
+    open(os.path.join(to_dir, f"{package_name}.csproj"), "w").write(csproj(generated_from))
 
 def csproj(generated_from: str):
     return f"""<Project Sdk=\"Microsoft.NET.Sdk\">
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
-        <PackageId>{os.environ.get('INPUT_PACKAGE_NAME')}.csproj</PackageId>
+        <PackageId>{package_name}.csproj</PackageId>
         <Description>An automatically generated nuget package for IRIs. Generated from: {generated_from}</Description>
     </PropertyGroup>
 
