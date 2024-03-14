@@ -42,7 +42,7 @@ if __name__ == "__main__":
 
     commit_message = "Added code libraries for ontologies."
     for file in new_files:
-        with open(file, "r") as f:
+        with open(os.path.join(new_files_dir, file), "r") as f:
             data = f.read()
         blob = repo.create_git_blob(data, "utf-8")
         tree = repo.create_git_tree([{
