@@ -88,9 +88,9 @@ def clean_class_name(o: Ontology) -> str:
 
     return r
 
-def ontology_class(o: Ontology, fields: list) -> str:
-    r = f"namespace Auto.Ontology.{os.environ.get("package_name")};\n\n"    
-    comment = f"This class is automatically generated from the <{o.base}> ontology.\nThe intended use is:\n<code>using Auto.Ontology.{os.environ.get("package_name")};</code>"
+def ontology_class(o: Ontology, fields: list) -> str:    
+    r = f"namespace Auto.Ontology.{os.environ.get('package_name')};\n\n"    
+    comment = f"This class is automatically generated from the <{o.base}> ontology.\nThe intended use is:\n<code>using Auto.Ontology.{os.environ.get('package_name')};</code>"
 
     class_name = clean_class_name(o)
 
@@ -128,7 +128,7 @@ def all_ontologies():
     folder = os.path.join(root, os.environ.get("INPUT_FROM"))
     for file in os.listdir(folder):
         if file.endswith(".ttl"):
-            file_path = f"{folder}/{file}"
+            file_path = os.path.join(folder, file)
             single_ontology(file_path)
 
 def ready_library(generated_from: str):
@@ -141,13 +141,13 @@ def ready_library(generated_from: str):
         shutil.rmtree(nuget_path)
     
     os.mkdir(nuget_path)
-    open(os.path.join(nuget_path, f"{os.environ.get("package_name")}.csproj"), "w").write(csproj(generated_from))
+    open(os.path.join(nuget_path, f"{os.environ.get('package_name')}.csproj"), "w").write(csproj(generated_from))
 
 def csproj(generated_from: str):
     return f"""<Project Sdk=\"Microsoft.NET.Sdk\">
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
-        <PackageId>{os.environ.get("package_name")}.csproj</PackageId>
+        <PackageId>{os.environ.get('package_name')}.csproj</PackageId>
         <Description>An automatically generated nuget package for IRIs. Generated from: {generated_from}</Description>
     </PropertyGroup>
 
