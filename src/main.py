@@ -82,7 +82,7 @@ if __name__ == "__main__":
     print(f"Updated branch {new_branch}")
 
     try:
-        pr_title = f"COLT ./- Generated code library - {datetime.now.strftime("%Y-%m-%d %H:%M")}"
+        pr_title = f"COLT ./- Generated code library - {datetime.now.strftime('%Y-%m-%d %H:%M')}"
         pr_body = "Plz check files."
         pr = repo.create_pull(
             title = pr_title, 
