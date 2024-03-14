@@ -19,5 +19,7 @@ jobs:
               with:
                 from: ontologies/
                 to: ontologies/out
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             
