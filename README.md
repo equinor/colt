@@ -1,6 +1,8 @@
 # Colt - Ontology to Code Library
 This github action takes `turtle` (`.ttl`) ontologies in a given directory and creates a C# project with its IRIs as strings. The package is intended to be used in code relating to using or building RDF.
 
+Running the action results in a pull request towards the default branch with a new C# project.
+
 ## Usage
 ### Inputs
 You can read the full definition in [action.yml](./action.yml).
