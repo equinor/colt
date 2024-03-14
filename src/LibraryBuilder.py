@@ -116,6 +116,7 @@ def create_cs_file(o: Ontology):
 
     print("Chose file name:", file_name)
     to_path = os.path.join(os.getcwd(), os.environ.get("INPUT_TO"), f"{cap(file_name)}.cs")
+    print(f"Writing file to {to_path}")
     open(to_path, "w").write(o_class)
 
 def single_ontology(file_path: str):
@@ -135,8 +136,8 @@ def ready_library(generated_from: str):
     import shutil
     root = os.getcwd()
     to_dir = os.environ.get("INPUT_TO")
-    print(f"Library: Found to_dir {to_dir}")
     nuget_path = os.path.join(root, to_dir)
+    print(f"Library: Found to_dir {nuget_path}")
 
     if os.path.exists(nuget_path): 
         shutil.rmtree(nuget_path)
