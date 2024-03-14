@@ -1,6 +1,6 @@
 FROM python:3.13.0a4-alpine3.18
 
-RUN pip install --no-cache pyyaml PyGithub
+RUN pip install --no-cache rdflib PyGithub
 
 WORKDIR /usr/src
 

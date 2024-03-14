@@ -1,5 +1,14 @@
 name: "COLT - Ontology to Code Library"
 description: "Goes through ontology files and generates a code library to access them programatically."
+inputs:
+  from:
+    description: "The directory with the ontologies you wish to transform."
+    required: true
+    default: "."
+  to:
+    description: "The directory where you wish to place the generated code library."
+    required: true
+    default: "./colt/"
 runs:
   using: "docker"
   image: "Dockerfile"

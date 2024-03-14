@@ -11,6 +11,12 @@ if __name__ == "__main__":
     if repo_url is None or access_token is None:
         raise ValueError("Failed to find token or repository URL.")
     
+    from_dir = os.environ.get("INPUT_FROM")
+    to_dir = os.environ.get("INPUT_TO")
+
+    print(f"From: {from_dir}")
+    print(f"To: {to_dir}")
+
     token = Auth.Token(access_token)
     
     github = Github(auth=token)
@@ -29,7 +35,6 @@ if __name__ == "__main__":
         "GitHub Action",
         "action@github.com"
     )
-
 
     new_files_dir = os.path.join(os.getcwd(), "nuget")
 
