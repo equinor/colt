@@ -4,7 +4,7 @@
 
 colt:Colt a owl:Ontology ;
     owl:ontologyIRI colt:Colt ;
-    rdfs:comment "An ontology for Colt."
+    rdfs:comment "An ontology for Colt." .
 
 colt:Commit a owl:Class .
 
