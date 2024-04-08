@@ -2,8 +2,10 @@ import os
 from ontology import Ontology
 
 package_name = os.environ.get("INPUT_PACKAGE_NAME")
-if package_name is None:
-    package_name = "OntologyLibrary"
+
+dotnet_version = os.environ.get("INPUT_DOTNET")
+if dotnet_version is None:
+    dotnet_version = "8"        
 
 to_dir = os.environ.get("INPUT_TO")
 if to_dir is None:
@@ -25,12 +27,13 @@ namespace = os.environ.get("INPUT_NAMESPACE")
 if namespace is None:
     namespace = f"Auto.Ontology.{package_name}"
 
+if package_name != None:
+    print(f"Package name: {package_name}")
 
-print(f"Package name: {package_name}")
 print(f"Collecting ontologies from: {from_dir}")
 print(f"Saving code library to: {to_dir}")
 print(f"Using namespace {namespace}")
-
+print(f"Creating for net{dotnet_version}.0")
 
 def short_name(s: str) -> str:
     try:
@@ -188,15 +191,18 @@ def ready_library(generated_from: str):
         shutil.rmtree(to_dir)
 
     os.mkdir(to_dir)
-    open(os.path.join(to_dir, f"{package_name}.csproj"), "w").write(
-        csproj(generated_from)
-    )
+    if package_name != None:
+        open(os.path.join(to_dir, f"{package_name}.csproj"), "w").write(
+            csproj(generated_from)
+        )
+    else:
+        print("Skipping the creation of C# project.")
 
 
 def csproj(generated_from: str):
     return f"""<Project Sdk=\"Microsoft.NET.Sdk\">
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net{dotnet_version}.0</TargetFramework>
         <PackageId>{package_name}.csproj</PackageId>
         <Description>An automatically generated nuget package for IRIs. Generated from: {generated_from}</Description>
     </PropertyGroup>

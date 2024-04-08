@@ -4,6 +4,7 @@ from datetime import datetime
 from uuid import uuid4
 from LibraryBuilder import *
 
+
 if __name__ == "__main__":
     access_token = os.environ.get("GITHUB_TOKEN")
     repo_url = os.environ.get("GITHUB_REPOSITORY")
@@ -11,6 +12,10 @@ if __name__ == "__main__":
 
     if repo_url is None or access_token is None:
         raise ValueError("Failed to find token or repository URL.")
+
+    dotnet_version = os.environ.get("INPUT_DOTNET")
+    if dotnet_version != None and  dotnet_version not in ["6", "7", "8"]:
+            raise Exception(".NET version not supported.")
 
     from_dir = os.environ.get("INPUT_FROM")
     to_dir = os.environ.get("INPUT_TO")

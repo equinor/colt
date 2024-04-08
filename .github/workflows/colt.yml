@@ -1,0 +1,37 @@
+name: Colt
+on:
+    workflow_dispatch:
+
+jobs:
+    ontology_transformer:
+        runs-on: ubuntu-latest
+        name: Colt
+        permissions:
+            pull-requests: write
+            contents: write
+        steps:
+            - name: Checkout repository
+              id: checkout
+              uses: actions/checkout@v4
+
+            - name: Colt
+              id: colt
+              uses: equinor/colt@feature/custom-dotnet-version-and-optional-project
+              with:
+                from: ontologies/
+                to: ontologies/projects
+                package_name: ColtIris
+                namespace: Rdf.Colt
+                dotnet: 8
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Colt
+              id: colt2
+              uses: equinor/colt@main
+              with:
+                from: ontologies/
+                to: ontologies/files
+                namespace: Rdf.Colt
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
