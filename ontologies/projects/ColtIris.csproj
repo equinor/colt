@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <PackageId>ColtIris.csproj</PackageId>
+        <Description>An automatically generated nuget package for IRIs. Generated from: equinor/colt:27ca6a3ab5a6de5eed72f8b277aa9326ab0714c2</Description>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    </PropertyGroup>
+</Project>
+    
