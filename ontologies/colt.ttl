@@ -13,5 +13,5 @@
 #################################################################
 
 ###  https://rdf.equinor.com/ontology/colt/Ontology
-owl:Ontology rdf:type owl:Class ;
+:Ontology rdf:type owl:Class ;
         rdfs:label "An owl:Ontology that is able to be parsed by Colt." .
