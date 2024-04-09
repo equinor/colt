@@ -1,0 +1,17 @@
+@prefix : <https://rdf.equinor.com/ontology/colt/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://rdf.equinor.com/ontology/colt> .
+
+<https://rdf.equinor.com/ontology/colt> rdf:type owl:Ontology ;
+                                                         owl:versionIRI :v1.0 ;
+                                                         rdfs:label "An ontology for Colt." .
+
+#################################################################
+#    Classes
+#################################################################
+
+###  https://rdf.equinor.com/ontology/colt/Ontology
+:Ontology rdf:type owl:Class ;
+        rdfs:label "An owl:Ontology that is able to be parsed by Colt." .

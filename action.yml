@@ -11,12 +11,16 @@ inputs:
     default: "./colt/"
   package_name:
     description: "The name of the code library package generated."
-    required: true
-    default: "OntologyLibrary"
+    required: false
+    default: None
   namespace:
     description: "The namespace for the C# project generated."
     required: false
     default: "Auto.Ontology"
+  dotnet:
+    description: "The version of .NET to use. 6, 7, and 8 are supported."
+    required: false
+    default: "8"
 runs:
   using: "docker"
   image: "Dockerfile"
