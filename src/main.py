@@ -38,7 +38,8 @@ if __name__ == "__main__":
 
     now = datetime.now().strftime("%Y-%m-%d_%H-%M")
     repo = github.get_repo(repo_url)
-    branch_name = f"colt/{now}/{uuid4()[:5]}" # Short UUID because we want a unique aspect to avoid collisions in time, but it does not need to be globally unique
+    unique_suffix = str(uuid4())[:5]
+    branch_name = f"colt/{now}/{unique_suffix}" # Short UUID because we want a unique aspect to avoid collisions in time, but it does not need to be globally unique
 
     default_branch = repo.get_branch(repo.default_branch)
 
