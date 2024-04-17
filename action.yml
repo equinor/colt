@@ -12,7 +12,6 @@ inputs:
   package_name:
     description: "The name of the code library package generated."
     required: false
-    default: None
   namespace:
     description: "The namespace for the C# project generated."
     required: false

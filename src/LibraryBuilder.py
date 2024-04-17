@@ -2,6 +2,8 @@ import os
 from ontology import Ontology
 
 package_name = os.environ.get("INPUT_PACKAGE_NAME")
+if package_name == "None":
+    package_name = None
 
 dotnet_version = os.environ.get("INPUT_DOTNET")
 if dotnet_version is None:
