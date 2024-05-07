@@ -21,7 +21,10 @@ if __name__ == "__main__":
     to_dir = os.environ.get("INPUT_TO")
 
     root = os.getcwd()
-    to_path = os.path.join(root, to_dir)
+    to_path = os.path.abspath(os.path.join(root, to_dir))
+    from_path = os.path.abspath(os.path.join(root, from_dir))
+    if os.path.commonprefix([to_path, root]) != root or os.path.commonprefix([from_path, root]) != root:
+        raise Exception("Invalid path in INPUT_TO or INPUT_FROM.")
     if not os.path.exists(to_path):
         print(f"Created folders {to_path}")
         os.makedirs(to_path)
