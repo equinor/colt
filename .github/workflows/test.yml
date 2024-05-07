@@ -1,0 +1,26 @@
+name: Colt
+on:
+    workflow_dispatch:
+
+jobs:
+    ontology_transformer:
+        runs-on: ubuntu-latest
+        name: Colt
+        permissions:
+            pull-requests: write
+            contents: write
+        steps:
+            - name: Checkout repository
+              id: checkout
+              uses: actions/checkout@v4
+
+            - name: Colt
+              id: colt
+              uses: equinor/colt@story/159124-fix-path-traversal
+              with:
+                from: ontologies/
+                to: ontologies/out
+                package_name: ColtIris
+                namespace: Rdf.Colt
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
