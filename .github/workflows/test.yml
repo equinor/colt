@@ -1,6 +1,7 @@
 name: Colt
 on:
     workflow_dispatch:
+    push:
 
 jobs:
     ontology_transformer:
