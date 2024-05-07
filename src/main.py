@@ -14,8 +14,8 @@ if __name__ == "__main__":
         raise ValueError("Failed to find token or repository URL.")
 
     dotnet_version = os.environ.get("INPUT_DOTNET")
-    if dotnet_version != None and  dotnet_version not in ["6", "7", "8"]:
-            raise Exception(".NET version not supported.")
+    if dotnet_version != None and dotnet_version not in ["6", "7", "8"]:
+        raise Exception(".NET version not supported.")
 
     from_dir = os.environ.get("INPUT_FROM")
     to_dir = os.environ.get("INPUT_TO")
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     now = datetime.now().strftime("%Y-%m-%d_%H-%M")
     repo = github.get_repo(repo_url)
     unique_suffix = str(uuid4())[:5]
-    branch_name = f"colt/{now}/{unique_suffix}" # Short UUID because we want a unique aspect to avoid collisions in time, but it does not need to be globally unique
+    branch_name = f"colt/{now}/{unique_suffix}"  # Short UUID because we want a unique aspect to avoid collisions in time, but it does not need to be globally unique
 
     default_branch = repo.get_branch(repo.default_branch)
 

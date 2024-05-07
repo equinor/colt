@@ -7,7 +7,7 @@ if package_name == "None":
 
 dotnet_version = os.environ.get("INPUT_DOTNET")
 if dotnet_version is None:
-    dotnet_version = "8"        
+    dotnet_version = "8"
 
 to_dir = os.environ.get("INPUT_TO")
 if to_dir is None:
@@ -38,6 +38,7 @@ print(f"Collecting ontologies from: {from_dir}")
 print(f"Saving code library to: {to_dir}")
 print(f"Using namespace {namespace}")
 print(f"Creating for net{dotnet_version}.0")
+
 
 def short_name(s: str) -> str:
     try:
@@ -200,8 +201,7 @@ def ready_library(generated_from: str):
     if package_name != None:
         to_path = os.path.abspath(os.path.join(to_dir, f"{package_name}.csproj"))
         if os.path.commonprefix([to_path, to_dir]) != to_dir:
-            raise Exception(
-                "Invalid ontology project package name.")
+            raise Exception("Invalid ontology project package name.")
 
         open(to_path, "w").write(csproj(generated_from))
     else:
