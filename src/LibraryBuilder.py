@@ -7,7 +7,7 @@ if package_name == "None":
 
 dotnet_version = os.environ.get("INPUT_DOTNET")
 if dotnet_version is None:
-    dotnet_version = "8"        
+    dotnet_version = "8"
 
 to_dir = os.environ.get("INPUT_TO")
 if to_dir is None:
@@ -15,7 +15,9 @@ if to_dir is None:
     if not os.path.exists(to_dir):
         os.makedirs(to_dir)
 else:
-    to_dir = os.path.join(os.getcwd(), to_dir)
+    to_dir = os.path.abspath(os.path.join(os.getcwd(), to_dir))
+    if os.path.commonprefix([to_dir, os.getcwd()]) != os.getcwd():
+        raise Exception("Invalid path in INPUT_TO.")
 
 from_dir = os.environ.get("INPUT_FROM")
 if from_dir is None:
@@ -36,6 +38,7 @@ print(f"Collecting ontologies from: {from_dir}")
 print(f"Saving code library to: {to_dir}")
 print(f"Using namespace {namespace}")
 print(f"Creating for net{dotnet_version}.0")
+
 
 def short_name(s: str) -> str:
     try:
@@ -166,7 +169,9 @@ def create_cs_file(o: Ontology):
     file_name = clean_class_name(o)
 
     print("Chose file name:", file_name)
-    to_path = os.path.join(to_dir, f"{cap(file_name)}.cs")
+    to_path = os.path.abspath(os.path.join(to_dir, f"{cap(file_name)}.cs"))
+    if os.path.commonprefix([to_path, to_dir]) != to_dir:
+        raise Exception("Invalid ontology file name.")
     print(f"Writing file to {to_path}")
     open(to_path, "w").write(o_class)
 
@@ -194,9 +199,11 @@ def ready_library(generated_from: str):
 
     os.mkdir(to_dir)
     if package_name != None:
-        open(os.path.join(to_dir, f"{package_name}.csproj"), "w").write(
-            csproj(generated_from)
-        )
+        to_path = os.path.abspath(os.path.join(to_dir, f"{package_name}.csproj"))
+        if os.path.commonprefix([to_path, to_dir]) != to_dir:
+            raise Exception("Invalid ontology project package name.")
+
+        open(to_path, "w").write(csproj(generated_from))
     else:
         print("Skipping the creation of C# project.")
 
