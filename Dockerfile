@@ -1,4 +1,4 @@
-FROM python:3.13.0a6-alpine3.18
+FROM python:3.12.5-alpine3.20
 
 RUN pip install --no-cache rdflib PyGithub
 
