@@ -65,7 +65,10 @@ Colt only works with ontologies written in `turtle` with the `.ttl` file extensi
 
 
 ## The Team
-[Info about our team.](https://github.com/equinor/team-semantic-infrastructure)
+We are a team of Equinor developers working with semantic infrastructure. Other public repositories from our team are 
+* [https://github.com/equinor/records](https://github.com/equinor/records)
+* [https://github.com/equinor/revisions](https://github.com/equinor/revisions)
+* [https://github.com/equinor/iri-tools](https://github.com/equinor/iri-tools)
 
 ## Contributing
 Please follow these steps to contribute:
